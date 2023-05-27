@@ -2,8 +2,7 @@
 .DS_store
 
 
-# Ignora la cartella db
-db
+
 
 # Ignora la cartella __pycache__
 api/src/__pycache__
