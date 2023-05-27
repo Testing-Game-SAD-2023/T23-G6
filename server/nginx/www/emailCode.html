@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" hidden>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Secret Code Verification</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap">
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css">
+  </head>
+  <body>
+    <div class="row" style="width: 100%">
+      <img class="mb-4" src="img/svg.svg" alt="" width="300" height="300">
+      <div class="mx-auto col-sm-4 col-sm-4" style="width: 20%; height: 15%;">
+        <!-- Pills navs -->
+        <!-- Pills content -->
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+            <form id="loginForm">
+              <div class="text-center mb-3">Type your code:</div>
+              <!-- Code input -->
+              <div class="form-outline mb-4">
+                <input type="text" maxlength="11" id="secretCode" class="form-control">
+                <label class="form-label" for="secretCode">Secret Code</label>
+              </div>
+              <!-- Submit button -->
+              <button type="button" id="confirmButton" class="btn btn-primary btn-block mb-4">Complete your registration</button>
+              <button type="button" id="logoutButton" class="btn btn-primary btn-block mb-4">Log Out</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script src="js/model/Model.js"></script>
+    <script src="js/view/View.js"></script>
+    <script src="js/controller/Controller.js"></script>
+    <script src="js/view/emailCodeView.js"></script>
+    <script>
+      var view = new emailCodeView();
+      var model = new Model();
+      var controller = new Controller(model, view);
+    </script>
+  </body>
+</html>

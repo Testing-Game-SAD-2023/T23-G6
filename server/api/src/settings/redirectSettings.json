@@ -1,0 +1,7 @@
+{
+    "publicPages"       :   ["index", "passwordRecovery"],
+    "privatePages"      :   ["home", "emailCode"],
+    "confirmationPage"  :   "emailCode",
+    "notLoggedRedirect" :   "/",
+    "LoggedRedirect"    :   "home"
+}

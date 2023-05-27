@@ -1,0 +1,47 @@
+services:
+  web:
+    container_name: web_server
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/www:/code
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+    networks:
+     - app-network
+
+  api:
+    build:
+      context: api
+      target: dev-envs
+    container_name: login_api
+    environment:
+      PORT: 1200
+    ports:
+      - 1200:1200
+    volumes:
+      - ./api/src:/app
+    restart: always
+    networks:
+      app-network:
+        aliases:
+          - login-api
+   
+  db:
+    container_name: mariadb_sad
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: 'progetto_sad'
+      MARIADB_DATABASE: 'sad_db'
+    networks:
+      app-network:
+        aliases:
+          - dbAddress
+      
+networks:
+  app-network:

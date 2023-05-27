@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" hidden>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Code Defender</title>
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap">
+  <link rel="stylesheet" href="css/mdb.min.css">
+</head>
+<body>
+  <div class="row" style="width: 100%">
+    <img class="mb-4" src="img/svg.svg" alt="" width="300" height="300">
+    <div class="mx-auto col-sm-4 col-sm-4" style="width: 20%; height: 15%;">
+      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+            aria-controls="pills-login" aria-selected="true">Login</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+            aria-controls="pills-register" aria-selected="false">Register</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+          <form id="loginForm">
+            <div class="text-center mb-3">Sign in:</div>
+            <div class="form-outline mb-4">
+              <input type="email" id="loginEmail" class="form-control">
+              <label class="form-label" for="loginEmail">Email</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="password" id="loginPassword" class="form-control">
+              <label class="form-label" for="loginPassword">Password</label>
+            </div>
+            <div class="row mb-4">
+              <a href="passwordRecovery">Forgot password?</a>
+            </div>
+            <button type="button" id="loginButton" class="btn btn-primary btn-block mb-4">Sign in</button>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+          <form id="registerForm">
+            <div class="text-center mb-3">Sign up:</div>
+            <div class="form-outline mb-4">
+              <input type="text" id="registerName" class="form-control">
+              <label class="form-label" for="registerName">Name</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="text" id="registerSurname" class="form-control">
+              <label class="form-label" for="registerSurname">Surname</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="email" id="registerEmail" class="form-control">
+              <label class="form-label" for="registerEmail">Email</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="password" id="registerPassword" class="form-control">
+              <label class="form-label" for="registerPassword">Password</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="password" id="registerRepeatPassword" class="form-control">
+              <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+            </div>
+            <div class="select">
+              <select type="degree" class="form-control selectpicker" id="registerDegree" placeholder="Degree">
+                <option value="">Degree (Optional)</option>
+                <option>Department of Engineering</option>
+                <option>Department of Information</option>
+                <option>Accounting Office</option>
+                <option>Treasurer's Office</option>
+                <option>MPDC</option>
+                <option>MCTC</option>
+                <option>MCR</option>
+                <option>Mayor's Office</option>
+                <option>Tourism Office</option>
+              </select>
+            </div>
+            <br>
+            <div class="form-check d-flex justify-content-center mb-4">
+              <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
+                aria-describedby="registerCheckHelpText">
+              <label class="form-check-label" for="registerCheck">
+                I have read and agree to the <a href="terms.html">terms</a>
+              </label>
+            </div>
+            <button type="button" id="registerButton" class="btn btn-primary btn-block mb-3">Sign up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script src="js/model/Model.js"></script>
+  <script src="js/view/View.js"></script>
+  <script src="js/controller/Controller.js"></script>
+  <script src="js/view/loginSignUpView.js"></script>
+  <script>
+    var view = new loginSignUpView();
+    var model = new Model();
+    var controller = new Controller(model, view);
+  </script>
+</body>
+</html>
