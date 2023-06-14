@@ -37,7 +37,20 @@ class Test(unittest.TestCase):
         json["DEGREE"]=degree
         json["PW"]=password
         self.assertEqual(View.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid User data"}).body)
-
+    
+    @parameterized.expand([
+        #TEST - UTENTE GIA REGISTRATO
+        ["AlreadyRegistered","Fabio","Verdi","fabio.test@test.test","Degree","test12345"]
+    ]) 
+    def testRegistrazioneUtenteGiaRegistrato(self,testname,name,surname,email,degree,password):
+        json={}
+        json["NAME"]=name
+        json["SURNAME"]=surname
+        json["EMAIL"]=email
+        json["DEGREE"]=degree
+        json["PW"]=password
+        self.assertEqual(View.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid request"}).body)
+    
     @parameterized.expand([
         #   TEST - UTENTE NON REGISTRATO
         ["NotRegistered","test@test.test","test12345"],
