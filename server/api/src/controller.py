@@ -152,7 +152,7 @@ class Controller:
                 res = JSONResponse({'MSG': "Invalid request"})
                 return res
 
-        def sendEmailRecoverAccount(json : dict):
+        def sendEmailRecoverAccount(json : dict) -> JSONResponse:
             try:
                 user = Model.User(json)
                 user = user.search()[0]
