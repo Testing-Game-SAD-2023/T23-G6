@@ -1,4 +1,4 @@
-
+baseURL = 'http://127.0.0.1/api/'
 class Model{
 
     constructor(){}
@@ -11,7 +11,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch('http://127.0.0.1/api/RecuperaAccountCambiaPassword', {
+      return fetch(baseURL+'RecuperaAccountCambiaPassword', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -38,7 +38,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch('http://127.0.0.1/api/RecuperaAccountInviaEmail', {
+      return fetch(baseURL+'RecuperaAccountInviaEmail', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -60,7 +60,7 @@ class Model{
 
     logout(){
 
-      return fetch('http://127.0.0.1/api/LogOut', {
+      return fetch(baseURL+'LogOut', {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -87,7 +87,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch('http://127.0.0.1/api/ConfermaEmail', {
+      return fetch(baseURL+'ConfermaEmail', {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -117,7 +117,7 @@ class Model{
           user.DEGREE = degree
           user.PW = password
 
-          return fetch('http://127.0.0.1/api/RegistraGiocatore', {
+          return fetch(baseURL+'RegistraGiocatore', {
               method: 'POST',
               body: JSON.stringify(user)
           })
@@ -134,7 +134,7 @@ class Model{
         var user = new Object()
         user.EMAIL = email
         user.PW = password
-        return fetch('http://127.0.0.1/api/LoginGiocatore', {
+        return fetch(baseURL+'LoginGiocatore', {
             method: 'POST',
             body: JSON.stringify(user)
         })
@@ -155,7 +155,7 @@ class Model{
         let requestBody = new Object();
         requestBody.LOC = location.pathname.split("/").slice(-1).toString()
 
-        return fetch('http://127.0.0.1/api/Redirect', {
+        return fetch(baseURL+'Redirect', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -173,5 +173,25 @@ class Model{
               return response
           })
           .catch(error => { throw error})
+    }
+
+    OttieniDatiUtente(){
+      return fetch(baseURL+'OttieniDatiUtente', {
+        method: 'POST',
+        withCredentials: true,
+        headers: {
+          "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+        .then(response => response.json())
+        .then(response => {
+          if(response['MSG']!== 'Success')
+            throw new Error(response['MSG'])
+          else
+            return response
+        })
+        .catch(error => { throw error})  
     }
 }

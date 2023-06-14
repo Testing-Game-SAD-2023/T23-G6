@@ -193,7 +193,6 @@ class Controller:
 
 
         def __checkDataIntegrity(json : dict) -> bool:
-            print(json)
             expectedKeys = ['NAME','SURNAME','EMAIL','PW', 'DEGREE']
             receivedKeys = list(json.keys())
 
@@ -205,7 +204,21 @@ class Controller:
                     return True
                 return False
 
-
+        def getUserData(token : str) -> JSONResponse:
+            try:
+                session = Model.Session(user_token = token).search()[0]
+                user = Model.User(id = session.id_user, cript = True).search()[0]
+                res = {}
+                res['MSG'] = 'Success'
+                res['name'] = user.name
+                res['surname'] = user.surname
+                res['email'] = user.email
+                res['degree'] = user.degree
+                return JSONResponse(res)
+            
+            except exc.InvalidRequestError:
+                return JSONResponse({'MSG': "Invalid request"})
+            
     class Session:
 
         ConfirmPasswordFinalCharacter : str = "C"

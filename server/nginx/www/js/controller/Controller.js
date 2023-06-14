@@ -10,7 +10,9 @@ class Controller{
         this.view.on('logout', this.logout.bind(this));
         this.view.on('passwordRecoverySendEmail', this.passwordRecoverySendEmail.bind(this));
         this.view.on('passwordRecoveryChangePassword', this.passwordRecoveryChangePassword.bind(this));
+        this.view.on('WelcomeMessage', this.WriteWelcomeMessage.bind(this));
     }
+  
 
     passwordRecoveryChangePassword({ code, password1, password2 })
       {
@@ -102,6 +104,13 @@ class Controller{
           else
              location.href = response['REDIRECT']
           })
+        .catch(error => {console.log(error);this.view.showAlert('Invalid request!')})
+      }
+
+      WriteWelcomeMessage(){
+        console.log('WriteWelcomeMessage')
+        this.model.OttieniDatiUtente()
+        .then(response => document.getElementById('WelcomeMessage').innerHTML = response['name'] + ' ' + response['surname'] )
         .catch(error => {console.log(error);this.view.showAlert('Invalid request!')})
       }
 }

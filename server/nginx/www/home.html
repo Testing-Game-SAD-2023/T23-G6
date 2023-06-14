@@ -40,10 +40,10 @@
 
     <!-- Jumbotron -->
     <div class="p-5 text-center bg-light" style="margin-top: 58px;">
-      <h1 class="mb-3">Benvenuto!</h1>
-      <h4 class="mb-3">Ciao, utente!</h4>
-      <p>Questa è la tua pagina personale.</p>
-      <a class="btn btn-primary" href="" role="button">Esplora</a>
+      <h1 class="mb-3">Welcome!</h1>
+      <h4 class="mb-3" id="WelcomeMessage"></h4>
+      <p>This is your personal Page.</p>
+      <a class="btn btn-primary" href="" role="button">Explore</a>
     </div>
     <!-- Jumbotron -->
   </header>
@@ -61,6 +61,7 @@
     var view = new homeView();
     var model = new Model();
     var controller = new Controller(model, view);
+    view.emit('WelcomeMessage', {})
   </script>
 </body>
 </html>

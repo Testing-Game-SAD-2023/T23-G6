@@ -26,3 +26,6 @@ class View :
     
     def RecuperaAccountCambiaPassword(json : dict) -> JSONResponse:
         return Controller.User.changePasswordRecoverAccount(json)
+    
+    def OttieniDatiUtente(token : str) -> JSONResponse:
+        return Controller.User.getUserData(token)

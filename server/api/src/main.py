@@ -56,5 +56,8 @@ async def RecuperaAccountInviaEmail(request: Request):
 async def RecuperaAccountCambiaPassword(request: Request):
     return View.RecuperaAccountCambiaPassword(await request.json())
 
+@prefix_router.post("/OttieniDatiUtente")
+async def OttieniDatiUtente(request: Request):
+    return View.OttieniDatiUtente(request.cookies.get('TOKEN'))
 
 app.include_router(prefix_router)
