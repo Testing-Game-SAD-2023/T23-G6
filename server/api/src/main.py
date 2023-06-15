@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.middleware.cors import CORSMiddleware
-from view import View
+from presentation import Presentation
 
 app = FastAPI()
 
@@ -20,44 +20,44 @@ prefix_router = APIRouter(prefix="/api")
 
 @prefix_router.post("/RegistraGiocatore")
 async def RegistraGiocatore(request: Request):
-    return View.RegistraGiocatore(await request.json())
+    return Presentation.RegistraGiocatore(await request.json())
 
 
 @prefix_router.post("/LoginGiocatore")
 async def LoginGiocatore(request: Request):
-    return View.LoginGiocatore(await request.json())
+    return Presentation.LoginGiocatore(await request.json())
 
 
 @prefix_router.post("/InviaNuovaEmail")
 async def InviaNuovaEmail(request: Request):
-    return View.InviaNuovaEmail(request.cookies.get('TOKEN'))
+    return Presentation.InviaNuovaEmail(request.cookies.get('TOKEN'))
 
 
 @prefix_router.post("/LogOut")
 async def LogOut(request: Request):
-    return View.LogOut(request.cookies.get('TOKEN'))
+    return Presentation.LogOut(request.cookies.get('TOKEN'))
 
 
 @prefix_router.post("/Redirect")
 async def Redirect(request: Request):
-    return View.Redirect(await request.json(), request.cookies.get('TOKEN'))
+    return Presentation.Redirect(await request.json(), request.cookies.get('TOKEN'))
 
 
 @prefix_router.post("/ConfermaEmail")
 async def ConfermaEmail(request: Request):
-    return View.ConfermaEmail(await request.json(), request.cookies.get('TOKEN'))
+    return Presentation.ConfermaEmail(await request.json(), request.cookies.get('TOKEN'))
 
 
 @prefix_router.post("/RecuperaAccountInviaEmail")
 async def RecuperaAccountInviaEmail(request: Request):
-    return View.RecuperaAccountInviaEmail(await request.json())
+    return Presentation.RecuperaAccountInviaEmail(await request.json())
 
 @prefix_router.post("/RecuperaAccountCambiaPassword")
 async def RecuperaAccountCambiaPassword(request: Request):
-    return View.RecuperaAccountCambiaPassword(await request.json())
+    return Presentation.RecuperaAccountCambiaPassword(await request.json())
 
 @prefix_router.post("/OttieniDatiUtente")
 async def OttieniDatiUtente(request: Request):
-    return View.OttieniDatiUtente(request.cookies.get('TOKEN'))
+    return Presentation.OttieniDatiUtente(request.cookies.get('TOKEN'))
 
 app.include_router(prefix_router)
