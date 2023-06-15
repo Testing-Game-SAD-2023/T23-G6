@@ -15,4 +15,4 @@ Per la realizzazione del progetto si è deciso di utilizzare le seguenti tecnolo
 ### Password Reset
 ██████████ 100%
 ### Security updates
-████████▒▒ 80%
+██████████ 100%
