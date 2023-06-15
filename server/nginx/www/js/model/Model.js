@@ -1,4 +1,5 @@
 baseURL = 'http://127.0.0.1/api/'
+apiAddress = 'http://127.0.0.1:1200'
 class Model{
 
     constructor(){}
@@ -24,7 +25,7 @@ class Model{
           method: 'POST',
           withCredentials: true,
           headers: {
-            "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+            "Access-Control-Allow-Origin": apiAddress,
             'Content-Type': 'application/json'
           },
           credentials: 'include',
@@ -55,7 +56,7 @@ class Model{
           method: 'POST',
           withCredentials: true,
           headers: {
-            "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+            "Access-Control-Allow-Origin": apiAddress,
             'Content-Type': 'application/json'
           },
           credentials: 'include',
@@ -78,7 +79,7 @@ class Model{
         method: 'POST',
         withCredentials: true,
         headers: {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+          "Access-Control-Allow-Origin": apiAddress,
           'Content-Type': 'application/json'
         },
         credentials: 'include'
@@ -104,7 +105,7 @@ class Model{
         method: 'POST',
         withCredentials: true,
         headers: {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+          "Access-Control-Allow-Origin": apiAddress,
           'Content-Type': 'application/json'
         },
         credentials: 'include',
@@ -174,7 +175,7 @@ class Model{
           method: 'POST',
           withCredentials: true,
           headers: {
-            "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+            "Access-Control-Allow-Origin": apiAddress,
             'Content-Type': 'application/json'
           },
           credentials: 'include',
@@ -195,7 +196,7 @@ class Model{
         method: 'POST',
         withCredentials: true,
         headers: {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:1200",
+          "Access-Control-Allow-Origin": apiAddress,
           'Content-Type': 'application/json'
         },
         credentials: 'include'
