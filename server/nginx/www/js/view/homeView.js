@@ -1,9 +1,14 @@
 class homeView extends View {
-    constructor() {
-        super();
+    constructor(model) {
+        super(model);
+
+        this.model.on("modelWriteWelcomeMessage", this.WriteWelcomeMessage.bind(this))
+        
         this.logoutButton = document.getElementById("logoutButton")
         this.WelcomeMessage = document.getElementById("WelcomeMessage")
         this.logoutButton.addEventListener("click", this.handleLogout.bind(this))
+
+        this.model.OttieniDatiUtente()
     }
 
     handleLogout(event) {
@@ -11,9 +16,8 @@ class homeView extends View {
         this.emit('logout', {});
     }
 
-    handleWelcomeMessage(){
-        console.log('Welcome message');
-        this.emit('WelcomeMessage', {});
+    WriteWelcomeMessage({ name, surname }){
+        this.WelcomeMessage.innerHTML = name + ' ' + surname
     }
-    
+
 }

@@ -45,8 +45,8 @@
     <script src="js/controller/Controller.js"></script>
     <script src="js/view/emailCodeView.js"></script>
     <script>
-      var view = new emailCodeView();
       var model = new Model();
+      var view = new emailCodeView(model);
       var controller = new Controller(model, view);
     </script>
   </body>

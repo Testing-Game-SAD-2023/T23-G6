@@ -100,8 +100,8 @@
   <script src="js/controller/Controller.js"></script>
   <script src="js/view/loginSignUpView.js"></script>
   <script>
-    var view = new loginSignUpView();
     var model = new Model();
+    var view = new loginSignUpView(model);
     var controller = new Controller(model, view);
   </script>
 </body>

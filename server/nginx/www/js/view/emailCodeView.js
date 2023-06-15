@@ -1,6 +1,6 @@
 class emailCodeView extends View {
-    constructor() {
-        super()
+    constructor(model) {
+        super(model)
         this.secretCode = document.getElementById("secretCode")
 
         this.confirmButton = document.getElementById("confirmButton")

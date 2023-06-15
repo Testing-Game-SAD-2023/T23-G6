@@ -6,7 +6,6 @@ from fastapi.responses import JSONResponse
 import re
 from sqlalchemy import exc
 
-# TODO: gestire eccezioni
 class Controller:
 
     def Redirect(json : dict, token : str) -> JSONResponse:
@@ -58,7 +57,7 @@ class Controller:
 
                 res = JSONResponse({'MSG': "Success"})
                 return res
-            
+
             except ValueError:
                 res = JSONResponse({'MSG': "Invalid User data"})
                 return res
@@ -75,10 +74,10 @@ class Controller:
                 loggedUser = Model.User(json = json, cript = True).search()[0]
                 token = Controller.Session.generateLoginToken(loggedUser.email, loggedUser.registration_state)
 
-                if (len(loggedUser.registration_state) > 1 and 
+                if (len(loggedUser.registration_state) > 1 and
                     loggedUser.registration_state[-1] == Controller.Session.RecoverAccountFinalCharacter):
                     raise ConnectionRefusedError('Could not login because the user have asked for recovery account')
-                
+
                 session = Model.Session(user_token = token, id_user = loggedUser.id)
                 session.insert()
 
@@ -92,7 +91,7 @@ class Controller:
                 res = JSONResponse({'MSG': "Success", 'REDIRECT': redirectPage})
                 res.set_cookie("TOKEN", session.user_token, samesite='none', secure=True)
                 return res
-            
+
             except IndexError:
                 res = JSONResponse({'MSG': "Invalid credentials"})
                 return res
@@ -136,7 +135,7 @@ class Controller:
                 user = Model.User(id = session.id_user, cript = True).search()[0]
                 user.update(REGISTRATION_STATE = "")
                 session.delete()
-                
+
                 session = Model.Session(user_token = Controller.Session.generateLoginToken(user.email, ""), id_user = user.id)
                 session.insert()
 
@@ -144,7 +143,7 @@ class Controller:
                 res = JSONResponse({'MSG': "Success", 'REDIRECT': redirectPage})
                 res.set_cookie("TOKEN", session.user_token, samesite='none', secure=True)
                 return res
-            
+
             except IndexError:
                 res = JSONResponse({'MSG': "Confirmation failed"})
                 return res
@@ -165,25 +164,26 @@ class Controller:
                 Controller.Email.sendEmail(user.email, subject, payload, code)
                 res = JSONResponse({'MSG': "Success"})
                 return res
-            
+
             except IndexError:
                 res = JSONResponse({'MSG': "Unregistered email"})
-                return res 
+                return res
             except exc.InvalidRequestError:
                 res = JSONResponse({'MSG': "Invalid request"})
-                return res 
+                return res
             except smtplib.SMTPException:
                 res = JSONResponse({'MSG': "Could not send email"})
                 return res
-        
+
         def changePasswordRecoverAccount(json : dict) -> JSONResponse:
             try:
                 user = Model.User(registration_state = json['CODE'], cript = True)
                 user = user.search()[0]
                 user.update(PW = json['PW'], REGISTRATION_STATE = "")
-                res = JSONResponse({'MSG': "Success"})
+                redirectPage = Model.Redirect.getSettings()['notLoggedRedirect']
+                res = JSONResponse(content={"MSG": "Success", 'REDIRECT': redirectPage})
                 return res
-            
+
             except IndexError:
                 res = JSONResponse({'MSG': "The code is invalid"})
                 return res
@@ -215,10 +215,10 @@ class Controller:
                 res['email'] = user.email
                 res['degree'] = user.degree
                 return JSONResponse(res)
-            
+
             except exc.InvalidRequestError:
                 return JSONResponse({'MSG': "Invalid request"})
-            
+
     class Session:
 
         ConfirmPasswordFinalCharacter : str = "C"
@@ -227,7 +227,7 @@ class Controller:
 
         def generateEmailCode(email: str, len=10) -> str:
             return Model.Session.generateToken(email, time.ctime())[0:len] + Controller.Session.ConfirmPasswordFinalCharacter
-        
+
         def generateNewPasswordCode(email: str, len=10) -> str:
             return Model.Session.generateToken(email, time.ctime())[0:len] + Controller.Session.RecoverAccountFinalCharacter
 

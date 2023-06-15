@@ -1,6 +1,6 @@
 class loginSignUpView extends View {
-    constructor() {
-        super()
+    constructor(model) {
+        super(model)
         this.registerEmail = document.getElementById("registerEmail")
         this.registerPassword = document.getElementById("registerPassword")
         this.registerPassword2 = document.getElementById("registerRepeatPassword")
@@ -11,7 +11,6 @@ class loginSignUpView extends View {
 
         this.loginEmail = document.getElementById("loginEmail")
         this.loginPassword = document.getElementById("loginPassword")
-
 
         this.registerButton = document.getElementById("registerButton")
         this.registerButton.addEventListener("click", this.handleRegistration.bind(this))

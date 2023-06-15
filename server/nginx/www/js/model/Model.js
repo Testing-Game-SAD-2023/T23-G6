@@ -3,6 +3,15 @@ class Model{
 
     constructor(){}
 
+    emit(event, data) {
+        if (typeof this[event] === 'function')
+          this[event](data);
+    }
+
+    on(event, callback) {
+        this[event] = callback;
+    }
+
     passwordRecoveryChangePassword(code, password) {
 
       let requestBody = new Object();
@@ -11,7 +20,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch(baseURL+'RecuperaAccountCambiaPassword', {
+      fetch(baseURL+'RecuperaAccountCambiaPassword', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -24,10 +33,14 @@ class Model{
           .then(response => response.json())
           .then(response => {
             if(response['MSG'] !== 'Success')
-              throw new Error(response['MSG'])})
+              throw new Error(response['MSG'])
+            else {
+              this.emit('modelShowAlert', {msg : "Password changed successfully!"})
+              this.emit('modelRedirect', {page : response['REDIRECT']})
+            }})
           .catch(error => {
             console.log(error)
-            throw error})
+            this.emit('modelShowAlert', {msg : "Something went wrong... Check your code or passwords!"})})
 
     }
 
@@ -38,7 +51,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch(baseURL+'RecuperaAccountInviaEmail', {
+      fetch(baseURL+'RecuperaAccountInviaEmail', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -51,16 +64,17 @@ class Model{
           .then(response => response.json())
           .then(response => {
             if(response['MSG'] !== 'Success')
-              throw new Error(response['MSG'])})
+              throw new Error(response['MSG'])
+            else
+              this.emit('modelShowPageNewPassword', {})})
           .catch(error => {
             console.log(error)
-            throw error})
-
+            this.emit('modelShowAlert', {msg : "Invalid email!"})})
     }
 
     logout(){
 
-      return fetch(baseURL+'LogOut', {
+      fetch(baseURL+'LogOut', {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -74,11 +88,10 @@ class Model{
           if(response['MSG'] !== 'Success')
             throw new Error(response['MSG'])
           else
-            return response})
+            this.emit('modelRedirect', {page : response['REDIRECT']})})
         .catch(error => {
           console.log(error)
-          throw error})
-
+          this.emit('modelShowAlert', {msg : "Logout failed!"})})
     }
 
     ConfermaEmail(secretCode) {
@@ -87,7 +100,7 @@ class Model{
 
       let jsonString = JSON.stringify(requestBody);
 
-      return fetch(baseURL+'ConfermaEmail', {
+      fetch(baseURL+'ConfermaEmail', {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -102,10 +115,10 @@ class Model{
           if(response['MSG'] !== 'Success')
             throw new Error(response['MSG'])
           else
-            return response})
+            this.emit('modelRedirect', {page : response['REDIRECT']})})
         .catch(error => {
           console.log(error)
-          throw error})
+          this.emit('modelShowAlert', {msg : "Invalid Code!"})})
     }
 
     RegistraGiocatore(name, surname, email, degree, password){
@@ -117,45 +130,47 @@ class Model{
           user.DEGREE = degree
           user.PW = password
 
-          return fetch(baseURL+'RegistraGiocatore', {
+          fetch(baseURL+'RegistraGiocatore', {
               method: 'POST',
               body: JSON.stringify(user)
           })
           .then(response => response.json())
           .then(response => {
             if(response['MSG'] !== 'Success')
-                throw new Error(response['MSG'])})
+                throw new Error(response['MSG'])
+            else
+                this.emit('modelShowAlert', {msg : 'Registration success!'});})
           .catch(error => {
             console.log(error)
-            throw error})
+            this.emit('modelShowAlert', {msg : 'Registration failed!'})})
     }
 
     LoginGiocatore(email, password){
         var user = new Object()
         user.EMAIL = email
         user.PW = password
-        return fetch(baseURL+'LoginGiocatore', {
+
+        fetch(baseURL+'LoginGiocatore', {
             method: 'POST',
             body: JSON.stringify(user)
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
-            console.log(response.cookies)
             if(response['MSG']!== 'Success')
                 throw new Error(response['MSG'])
             else
-                return response})
+                this.emit('modelRedirect', {page : response['REDIRECT']});
+        })
         .catch(error => {
             console.log(error)
-            throw error})
+            this.emit('modelShowAlert', {msg : "Login failed!"})})
     }
 
     redirect(){
         let requestBody = new Object();
         requestBody.LOC = location.pathname.split("/").slice(-1).toString()
 
-        return fetch(baseURL+'Redirect', {
+        fetch(baseURL+'Redirect', {
           method: 'POST',
           withCredentials: true,
           headers: {
@@ -170,13 +185,13 @@ class Model{
             if(response['MSG']!== 'Success')
               throw new Error(response['MSG'])
             else
-              return response
+              this.emit('modelRedirect', {page : response['REDIRECT']});
           })
-          .catch(error => { throw error})
+          .catch(() => this.emit('modelShowAlert', {msg : "Inavlid request"}))
     }
 
     OttieniDatiUtente(){
-      return fetch(baseURL+'OttieniDatiUtente', {
+      fetch(baseURL+'OttieniDatiUtente', {
         method: 'POST',
         withCredentials: true,
         headers: {
@@ -190,8 +205,8 @@ class Model{
           if(response['MSG']!== 'Success')
             throw new Error(response['MSG'])
           else
-            return response
+            this.emit('modelWriteWelcomeMessage', {name : response['name'], surname : response['surname']});
         })
-        .catch(error => { throw error})  
+        .catch(() => { this.emit('modelWriteWelcomeMessage', {name : '???', surname : '???'});})
     }
 }
