@@ -8,38 +8,6 @@ from sqlalchemy import exc
 
 class Logic:
 
-    def Redirect(json : dict, token : str) -> JSONResponse:
-        print(token)
-        redirectSettings = Data.Redirect.getSettings()
-        try:
-            session = Data.Session(user_token = token)
-            if session.user_token != None and len(session.search()) == 0:
-                raise exc.InvalidRequestError('The token is not valid')
-
-            loc = json['LOC']
-            if session.user_token == None:
-                if loc in redirectSettings["privatePages"]:
-                    redirectPage = redirectSettings["notLoggedRedirect"]
-                else:
-                    redirectPage = loc
-            elif session.user_token[-1] == Logic.Session.ConfirmPasswordFinalCharacter:
-                if loc == redirectSettings["confirmationPage"]:
-                    redirectPage = loc
-                else:
-                    redirectPage = redirectSettings["confirmationPage"]
-            else:
-                if (loc in redirectSettings["publicPages"]) or (loc in redirectSettings["confirmationPage"]):
-                    redirectPage = redirectSettings["LoggedRedirect"]
-                else:
-                    redirectPage = loc
-
-            res = JSONResponse({'MSG': "Success", "REDIRECT" : redirectPage})
-            return res
-        except exc.InvalidRequestError as e:
-            res = JSONResponse({'MSG': e})
-            res.delete_cookie(key='TOKEN', samesite='none', secure=True)
-            return res
-
     class User:
 
         def signUp(json: dict) -> JSONResponse:
@@ -209,6 +177,37 @@ class Logic:
 
             except exc.InvalidRequestError:
                 return JSONResponse({'MSG': "Invalid request"})
+        
+        def Redirect(json : dict, token : str) -> JSONResponse:
+            redirectSettings = Data.Redirect.getSettings()
+            try:
+                session = Data.Session(user_token = token)
+                if session.user_token != None and len(session.search()) == 0:
+                    raise exc.InvalidRequestError('The token is not valid')
+
+                loc = json['LOC']
+                if session.user_token == None:
+                    if loc in redirectSettings["privatePages"]:
+                        redirectPage = redirectSettings["notLoggedRedirect"]
+                    else:
+                        redirectPage = loc
+                elif session.user_token[-1] == Logic.Session.ConfirmPasswordFinalCharacter:
+                    if loc == redirectSettings["confirmationPage"]:
+                        redirectPage = loc
+                    else:
+                        redirectPage = redirectSettings["confirmationPage"]
+                else:
+                    if (loc in redirectSettings["publicPages"]) or (loc in redirectSettings["confirmationPage"]):
+                        redirectPage = redirectSettings["LoggedRedirect"]
+                    else:
+                        redirectPage = loc
+
+                res = JSONResponse({'MSG': "Success", "REDIRECT" : redirectPage})
+                return res
+            except exc.InvalidRequestError as e:
+                res = JSONResponse({'MSG': e})
+                res.delete_cookie(key='TOKEN', samesite='none', secure=True)
+                return res
 
     class Session:
 

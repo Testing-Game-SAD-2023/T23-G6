@@ -16,7 +16,7 @@ class Presentation :
         return Logic.User.sendNewEmail(token)
 
     def Redirect(json : dict, token : str) -> JSONResponse:
-        return Logic.Redirect(json, token)
+        return Logic.User.Redirect(json, token)
 
     def ConfermaEmail(json: dict, token: str) -> JSONResponse:
         return Logic.User.confirmEmail(json, token)
