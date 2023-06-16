@@ -1,6 +1,6 @@
 import unittest
-from view import View
-from model import Model
+from presentation import Presentation
+from data import Data
 from fastapi.responses import JSONResponse
 from parameterized import parameterized
 
@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
         json["DEGREE"]="Degree"
         json["PW"]="test12345"
         json["REGISTRATION_STATE"]="123"
-        self.NewUser = Model.User(json)
+        self.NewUser = Data.User(json)
         self.NewUser.insert()
     
     @parameterized.expand([
@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         json["EMAIL"]=email
         json["DEGREE"]=degree
         json["PW"]=password
-        self.assertEqual(View.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid User data"}).body)
+        self.assertEqual(Presentation.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid User data"}).body)
     
     @parameterized.expand([
         #TEST - UTENTE GIA REGISTRATO
@@ -49,7 +49,7 @@ class Test(unittest.TestCase):
         json["EMAIL"]=email
         json["DEGREE"]=degree
         json["PW"]=password
-        self.assertEqual(View.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid request"}).body)
+        self.assertEqual(Presentation.RegistraGiocatore(json).body,JSONResponse({'MSG': "Invalid request"}).body)
     
     @parameterized.expand([
         #   TEST - UTENTE NON REGISTRATO
@@ -61,7 +61,7 @@ class Test(unittest.TestCase):
         json={}
         json["EMAIL"]=email
         json["PW"]=password
-        self.assertEqual(View.LoginGiocatore(json).body,JSONResponse({'MSG': "Invalid credentials"}).body)
+        self.assertEqual(Presentation.LoginGiocatore(json).body,JSONResponse({'MSG': "Invalid credentials"}).body)
 
     @parameterized.expand([
         #   TEST - UTENTE NON REGISTRATO
@@ -70,7 +70,7 @@ class Test(unittest.TestCase):
     def testPasswordResetSendEmail(self,testname,email):
         json={}
         json["EMAIL"]=email
-        self.assertEqual(View.RecuperaAccountInviaEmail(json).body,JSONResponse({'MSG': "Unregistered email"}).body)
+        self.assertEqual(Presentation.RecuperaAccountInviaEmail(json).body,JSONResponse({'MSG': "Unregistered email"}).body)
     
     @parameterized.expand([
         #   TEST - CODICE ERRATO
@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
         json={}
         json["EMAIL"]=email
         json['CODE']=code
-        self.assertEqual(View.RecuperaAccountCambiaPassword(json).body,JSONResponse({'MSG': "The code is invalid"}).body)
+        self.assertEqual(Presentation.RecuperaAccountCambiaPassword(json).body,JSONResponse({'MSG': "The code is invalid"}).body)
     
     
     def tearDown(self):
