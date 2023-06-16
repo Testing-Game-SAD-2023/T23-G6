@@ -12,9 +12,6 @@ class Presentation :
     def LogOut(token: str) -> JSONResponse:
         return Logic.User.logOut(token)
 
-    def InviaNuovaEmail(token: str) -> JSONResponse:
-        return Logic.User.sendNewEmail(token)
-
     def Redirect(json : dict, token : str) -> JSONResponse:
         return Logic.User.Redirect(json, token)
 

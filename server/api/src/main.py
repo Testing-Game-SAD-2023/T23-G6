@@ -28,11 +28,6 @@ async def LoginGiocatore(request: Request):
     return Presentation.LoginGiocatore(await request.json())
 
 
-@prefix_router.post("/InviaNuovaEmail")
-async def InviaNuovaEmail(request: Request):
-    return Presentation.InviaNuovaEmail(request.cookies.get('TOKEN'))
-
-
 @prefix_router.post("/LogOut")
 async def LogOut(request: Request):
     return Presentation.LogOut(request.cookies.get('TOKEN'))
